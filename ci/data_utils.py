@@ -13,7 +13,7 @@ def deep_equal(obj1, obj2):
 
 
 def dump_to_yaml_str(obj: dict) -> str:
-    return yaml.dump(obj)
+    return yaml.dump(obj, default_flow_style=False)
 
 
 
