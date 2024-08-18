@@ -158,6 +158,8 @@ def validate_yaml_schema_generic(data, required_field_type_pairs, file_path):
 
     return True
 
+ALL_REDIRECTS = set()
+
 def standard_frontmatter_validations(file_path: str, data: dict):
     description: str = data.get('description')
     if description and not description.endswith('.'):
@@ -176,6 +178,17 @@ def standard_frontmatter_validations(file_path: str, data: dict):
         print(f'Warning: could not find {DEFAULT_AUTHOR_MARKER} in accreditations for {file_path}. If intentional, please add it to "drop_accreditations".')
         sys.exit(1)
 
+    redirects = data.get('redirects', [])
+    unique_redirects = set(redirects)
+    if len(unique_redirects) != len(redirects):
+        print(f'Duplicate redirects in {file_path}')
+        sys.exit(1)
+
+    duplicate_redirects = ALL_REDIRECTS.intersection(unique_redirects)
+    if len(duplicate_redirects) != 0:
+        print(f'Multiple files have the same redirects: {duplicate_redirects}. Found duplicate in {file_path}')
+        sys.exit(1)
+    ALL_REDIRECTS.update(unique_redirects)
 
 def validate_connector_schema(file_path):
     success, data = load_yaml_data(file_path)
