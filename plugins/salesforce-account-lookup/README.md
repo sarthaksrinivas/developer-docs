@@ -10,14 +10,10 @@ solution_tags:
 systems:
 - salesforce
 time_in_minutes: 5
+accreditations:
+- indrapaul24
+- DEFAULT
 ---
-
-### Step : See it in action
-
-<aside>
-✨ Query Salesforce Account object details with your bot
-
-</aside>
 
 # Introduction
 

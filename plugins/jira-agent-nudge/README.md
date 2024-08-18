@@ -14,6 +14,8 @@ solution_tags:
 systems:
 - jira
 time_in_minutes: 30
+drop_accreditations:
+- ajaymerchia
 ---
 
 # Introduction

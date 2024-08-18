@@ -1,5 +1,6 @@
 import os
 import re
+from typing import List
 import yaml
 import sys
 from urllib.parse import urlparse, unquote
@@ -7,6 +8,7 @@ from collections import defaultdict
 from enum import Enum
 from model import *
 
+DEFAULT_AUTHOR_MARKER = 'DEFAULT'
 
 def find_markdown_files(directory_path):
     markdown_files = []
@@ -156,6 +158,24 @@ def validate_yaml_schema_generic(data, required_field_type_pairs, file_path):
 
     return True
 
+def standard_frontmatter_validations(file_path: str, data: dict):
+    description: str = data.get('description')
+    if description and not description.endswith('.'):
+        print(
+                f"Missed a period at the end of your description for {file_path}. ('{description}')"
+            )
+        sys.exit(1)
+
+    accreditations: List[str] = data.get('accreditations', [])
+    drop_accreditations: List[str] = data.get('drop_accreditations', [])
+    if all([
+        accreditations,
+        DEFAULT_AUTHOR_MARKER not in accreditations,
+        DEFAULT_AUTHOR_MARKER not in drop_accreditations
+    ]):
+        print(f'Warning: could not find {DEFAULT_AUTHOR_MARKER} in accreditations for {file_path}. If intentional, please add it to "drop_accreditations".')
+        sys.exit(1)
+
 
 def validate_connector_schema(file_path):
     success, data = load_yaml_data(file_path)
@@ -167,21 +187,9 @@ def validate_connector_schema(file_path):
         "fidelity": Fidelity
     }
     
-    if data.get('fidelity') != Fidelity.IDEA.name:
-        required_fields.update(
-            {
-                "time_in_minutes": int,
-                "difficulty_level": DifficultyLevel
-            }
-        )
-    description: str = data.get('description')
-    if description and not description.endswith('.'):
-        print(
-                f"Missed a period at the end of your description for {file_path}. ('{description}')"
-            )
-        sys.exit(1)
-
     validate_yaml_schema_generic(data, required_fields, file_path)
+
+    standard_frontmatter_validations(file_path=file_path, data=data)
 
 
 def validate_plugin_schema(file_path):
@@ -203,15 +211,9 @@ def validate_plugin_schema(file_path):
                 "difficulty_level": DifficultyLevel,
             }
         )
-    description: str = data.get('description')
-    if description and not description.endswith('.'):
-        print(
-                f"Missed a period at the end of your description for {file_path}. ('{description}')"
-            )
-        sys.exit(1)
-
 
     validate_yaml_schema_generic(data, required_fields, file_path)
+    standard_frontmatter_validations(file_path=file_path, data=data)
 
     for system in data["systems"]:
         if not os.path.isdir(os.path.join(f"./{DIRECTORY_MAP[ContentTypes.CONNECTOR]}", system)):

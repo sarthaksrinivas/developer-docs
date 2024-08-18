@@ -7,6 +7,8 @@ purple_chat_link: https://developer.moveworks.com/creator-studio/developer-tools
 accreditations:
 - indrapaul24
 - DEFAULT
+drop_accreditations:
+- ajaymerchia
 ---
 
 

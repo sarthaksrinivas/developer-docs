@@ -3,6 +3,10 @@ difficulty_level: BEGINNER
 fidelity: GUIDE
 name: OpenAI
 time_in_minutes: 10
+accreditations:
+- sarthaksrinivas
+- indrapaul24
+- DEFAULT
 ---
 
 # **Introduction**

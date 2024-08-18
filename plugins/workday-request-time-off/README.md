@@ -11,6 +11,9 @@ solution_tags:
 systems:
 - workday
 time_in_minutes: 60
+accreditations:
+- sarthaksrinivas
+- DEFAULT
 ---
 
 # Take time off in Workday with your copilot 🏝️

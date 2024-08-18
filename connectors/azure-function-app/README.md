@@ -4,7 +4,7 @@ description: Integrate with Azure Function Apps using function keys.
 fidelity: GUIDE
 difficulty_level: ADVANCED
 time_in_minutes: 60
-accreditations: [smartzee797, ajaymerchia]
+accreditations: [smartzee797, ajaymerchia, DEFAULT]
 ---
 
 # Introduction
