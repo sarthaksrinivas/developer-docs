@@ -3,6 +3,9 @@ name: Coupa
 fidelity: GUIDE
 time_in_minutes: 15
 difficulty_level: BEGINNER
+accreditations:
+- indrapaul24
+- DEFAULT
 ---
 
 # **Introduction**

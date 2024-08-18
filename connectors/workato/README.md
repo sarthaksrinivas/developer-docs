@@ -5,6 +5,7 @@ name: Workato
 time_in_minutes: 30
 accreditations:
 - ajaymerchia
+- DEFAULT
 ---
 
 # Introduction

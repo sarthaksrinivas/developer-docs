@@ -11,6 +11,9 @@ solution_tags:
 systems:
 - sap-concur
 time_in_minutes: 15
+accreditations:
+- indrapaul24
+- DEFAULT
 ---
 
 # Introduction
