@@ -5,21 +5,16 @@ import sys
 from urllib.parse import urlparse, unquote
 from collections import defaultdict
 from enum import Enum
-
-
-class DifficultyLevel(Enum):
-    BEGINNER = "Beginner"
-    INTERMEDIATE = "Intermediate"
-    ADVANCED = "Advanced"
+from model import *
 
 
 def find_markdown_files(directory_path):
     markdown_files = []
     for dirpath, _, files in os.walk(directory_path):
         for file_name in files:
-            if file_name.endswith(".md"):
+            if file_name.endswith(MARKDOWN_EXTENSION):
                 if (
-                    dirpath == directory_path and file_name == "README.md"
+                    dirpath == directory_path and file_name == README_FILENAME
                 ):  # Ignore TLD Readmes.
                     continue
 
@@ -67,7 +62,7 @@ def identify_external_links(file_path):
                 os.path.exists(real_path)
                 and real_path.startswith(os.path.realpath(os.path.dirname(file_path)))
             ):
-                if file_path.endswith("README.md"):
+                if file_path.endswith(README_FILENAME):
                     continue
 
                 invalid_links.append(link)
@@ -111,12 +106,12 @@ def validate_no_broken_images(file):
 
 
 def is_file_name_readme(file_path):
-    return os.path.basename(file_path).lower() == "readme.md"
+    return os.path.basename(file_path).lower() == README_FILENAME.lower()
 
 
 def validate_file_name(file):
     if not is_file_name_readme(file):
-        print(f"Incorrect file name for {file}. Expected 'README.md'")
+        print(f"Incorrect file name for {file}. Expected '{README_FILENAME}'")
         sys.exit(1)
 
 
@@ -148,9 +143,9 @@ def validate_yaml_schema_generic(data, required_field_type_pairs, file_path):
 
     for field, type_ in required_field_type_pairs.items():
         if issubclass(type_, Enum):
-            if data[field] not in type_._value2member_map_:
+            if data[field] not in type_._member_names_:
                 print(
-                    f"Invalid Enum value for {field} in {file_path}: {data[field]}. Expected one of {list(type_._value2member_map_.keys())}"
+                    f"Invalid Enum value for {field} in {file_path}: {data[field]}. Expected one of {list(type_._member_names_)}"
                 )
                 sys.exit(1)
         elif not isinstance(data[field], type_):
@@ -162,79 +157,53 @@ def validate_yaml_schema_generic(data, required_field_type_pairs, file_path):
     return True
 
 
-def find_design_patterns(directory_path):
-    design_patterns = []
-    pattern_dirs = [
-        d
-        for d in os.listdir(directory_path)
-        if os.path.isdir(os.path.join(directory_path, d))
-    ]
-
-    for pattern_dir in pattern_dirs:
-        readme_path = os.path.join(directory_path, pattern_dir, "README.md")
-        if os.path.exists(readme_path):
-            design_patterns.append(readme_path)
-
-    return design_patterns
-
-
-def validate_system_schema(file_path):
+def validate_connector_schema(file_path):
     success, data = load_yaml_data(file_path)
     if not success:
         sys.exit(1)
 
     required_fields = {
         "name": str,
-        "description": str,
-        "time_in_minutes": int,
-        "difficulty_level": DifficultyLevel,
+        "fidelity": Fidelity
     }
+    
+    if data.get('fidelity') != Fidelity.IDEA.name:
+        required_fields.update(
+            {
+                "time_in_minutes": int,
+                "difficulty_level": DifficultyLevel
+            }
+        )
 
     validate_yaml_schema_generic(data, required_fields, file_path)
 
 
-def validate_design_pattern_schema(file_path):
+def validate_plugin_schema(file_path):
     success, data = load_yaml_data(file_path)
     if not success:
         sys.exit(1)
 
     required_fields = {
-        "id": int,
         "name": str,
-        "description": str,
-        "time_in_minutes": int,
-        "purple_chat_link": str,
-        "difficulty_level": DifficultyLevel,
-    }
-    validate_yaml_schema_generic(data, required_fields, file_path)
-
-
-def validate_use_case_schema(file_path, design_pattern_ids):
-    success, data = load_yaml_data(file_path)
-    if not success:
-        sys.exit(1)
-
-    required_fields = {
-        "design_pattern_id": int,
-        "name": str,
-        "description": str,
+        "fidelity": Fidelity,
         "systems": list,
         "purple_chat_link": str,
-        "time_in_minutes": int,
-        "difficulty_level": DifficultyLevel,
+        "solution_tags": list,
     }
+    if data.get("fidelity") == Fidelity.GUIDE.name:
+        required_fields.update(
+            {
+                "time_in_minutes": int,
+                "difficulty_level": DifficultyLevel,
+            }
+        )
+
     validate_yaml_schema_generic(data, required_fields, file_path)
 
-    if data["design_pattern_id"] not in design_pattern_ids:
-        print(
-            f"Invalid 'design_pattern_id' in {file_path}. No such design pattern id exists."
-        )
-        sys.exit(1)
-
     for system in data["systems"]:
-        if not os.path.isdir(os.path.join("./authentication-guides", system)):
+        if not os.path.isdir(os.path.join(f"./{DIRECTORY_MAP[ContentTypes.CONNECTOR]}", system)):
             print(
-                f"Invalid system '{system}' referenced in {file_path}. Please make sure the '{system}' is registered in ./authentication-guides"
+                f"Invalid system '{system}' referenced in {file_path}. Please make sure the '{system}' is registered in ./connectors"
             )
             sys.exit(1)
 
@@ -255,12 +224,12 @@ def validate_directory_structure(directory_path, required_files):
 
 def directory_schema_validation():
     if not validate_directory_structure(
-        "./authentication-guides", {"readme.md", "logo.png"}
+        f"./{DIRECTORY_MAP[ContentTypes.CONNECTOR]}", {"readme.md", "logo.png"}
     ):
         sys.exit(1)
-    if not validate_directory_structure("./use-case-guides", {"readme.md"}):
-        sys.exit(1)
-    if not validate_directory_structure("./design-patterns", {"readme.md"}):
+    if not validate_directory_structure(
+        f"./{DIRECTORY_MAP[ContentTypes.PLUGIN]}", {"readme.md"}
+    ):
         sys.exit(1)
 
 
@@ -282,38 +251,22 @@ def check_duplicate_slugs(file_paths):
 def main():
     directory_schema_validation()
 
-    guide_files = find_markdown_files("./authentication-guides")
-    guide_files += find_markdown_files("./use-case-guides")
-    pattern_files = find_design_patterns("./design-patterns")
-    guide_files += pattern_files
+    guide_files = find_markdown_files(f"./{DIRECTORY_MAP[ContentTypes.CONNECTOR]}")
+    guide_files += find_markdown_files(f"./{DIRECTORY_MAP[ContentTypes.PLUGIN]}")
 
     check_duplicate_slugs(guide_files)
 
     print(f"Scanning {len(guide_files)} files...")
-
-    design_pattern_ids = []
-    design_pattern_id_map = {}
-    for file in pattern_files:
-        validate_design_pattern_schema(file)
-        _, data = load_yaml_data(file)
-        dp_id = data['id']
-        if dp_id in design_pattern_id_map:
-            print(f"Found duplicate design pattern ID in {file}: {dp_id} already in use by {design_pattern_id_map[dp_id]}")
-            sys.exit(1)
-
-        design_pattern_id_map[dp_id] = file
-
-    design_pattern_ids = design_pattern_id_map.keys()
 
     for file in guide_files:
         print(f"Checking {file}...")
         validate_no_outside_links(file)
         validate_no_broken_images(file)
         validate_file_name(file)
-        if "./use-case-guides" in file:
-            validate_use_case_schema(file, design_pattern_ids)
-        elif "./authentication-guides" in file:
-            validate_system_schema(file)
+        if "./plugins" in file:
+            validate_plugin_schema(file)
+        elif "./connectors" in file:
+            validate_connector_schema(file)
 
     print("Check passed: All validations are successful.")
     sys.exit(0)
