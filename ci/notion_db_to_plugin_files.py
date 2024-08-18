@@ -2,6 +2,7 @@ import os
 
 import pandas as pd
 import requests
+import re
 
 CSV_FILE = 'Plugin Research df47317a8eb449178020d6bf3dec4b23_all.csv'
 
@@ -155,23 +156,51 @@ class Record:
 
         result = render_template_file(self.template_filepath, render_dict)
         return result
+    
+    def replace_existing_file_front_matter(self, new_front_matter: dict):
+        with open(self.record_readme, 'r', encoding='utf-8') as file:
+            content = file.read()
+        # Parse out the front matter
+        parts = re.split(r'^---\s*$', content, maxsplit=2, flags=re.MULTILINE)
+        if len(parts) == 3:
+            body = parts[2]
+        else:
+            body = content
+        # Convert new front matter to a YAML string
+        new_front_matter_str = dump_to_yaml_str(new_front_matter).strip()
+        # Combine the new front matter and the original body
+        new_content = f"---\n{new_front_matter_str}\n---\n{body}"
+        with open(self.record_readme, 'w', encoding='utf-8') as file:
+            file.write(new_content)
+        
+        
+
 
 def validate_file_consistent_with_notion(record: Record):
     # Ensure the front matter is AT LEAST the same
     stored_front_matter = record.front_matter
+    ideal_front_matter = dict(stored_front_matter)
+    errors_messages = []
     for k, v in record.to_front_matter().items():
         if not v:
             # No expected value
             continue
 
         if k not in stored_front_matter:
-            raise ValueError(
+            ideal_front_matter[k] = v
+            errors_messages.append(
                 f"Missing {k} in {record.record_readme} front matter. Recommended value: '{v}'"
             )
-        if not deep_equal(stored_front_matter[k], v):
-            raise ValueError(
+        elif not deep_equal(stored_front_matter[k], v):
+            ideal_front_matter[k] = v
+            errors_messages.append(
                 f'Stored value for {k} in {record.record_readme} was "{stored_front_matter[k]}". Expected "{v}"'
             )
+    
+    if errors_messages:
+        # Stage the change
+        record.replace_existing_file_front_matter(ideal_front_matter)
+        raise ValueError(*errors_messages)
 
 
 def clear_directory(directory):

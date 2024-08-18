@@ -4,6 +4,7 @@ fidelity: GUIDE
 time_in_minutes: 30
 difficulty_level: INTERMEDIATE
 num_implementations: 2
+accreditations: [wdavis-moveworks, indrapaul24, sarthaksrinivas, DEFAULT]
 ---
 
 # Introduction
