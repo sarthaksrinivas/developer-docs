@@ -3,6 +3,9 @@ difficulty_level: INTERMEDIATE
 fidelity: GUIDE
 name: Salesforce
 time_in_minutes: 60
+accreditations:
+- indrapaul24
+- DEFAULT
 ---
 
 # **Introduction**
