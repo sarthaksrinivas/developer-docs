@@ -24,6 +24,7 @@ solution_tags:
 systems:
 - workday
 time_in_minutes: 10
+accreditations: [wdavis-moveworks]
 ---
 
 # **Introduction**
