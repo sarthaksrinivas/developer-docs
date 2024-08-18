@@ -1,5 +1,5 @@
 ---
-description: A plugin that can reset your Microsoft MFA setup
+description: A plugin that can reset your Microsoft MFA device.
 difficulty_level: ADVANCED
 fidelity: GUIDE
 name: Reset Microsoft MFA

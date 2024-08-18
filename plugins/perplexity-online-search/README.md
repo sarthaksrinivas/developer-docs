@@ -1,5 +1,5 @@
 ---
-description: Searches online results from the Perplexity search engine
+description: A plugin that searches online results from the Perplexity search engine.
 difficulty_level: BEGINNER
 fidelity: GUIDE
 name: Search Perplexity

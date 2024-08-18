@@ -1,5 +1,7 @@
 ---
-description: A plugin that can find the birthdays of your teammates in Workday
+accreditations:
+- wdavis-moveworks
+description: A plugin that can find the birthdays of your teammates in Workday.
 difficulty_level: BEGINNER
 fidelity: GUIDE
 name: Lookup Birthdays in Workday
@@ -24,7 +26,6 @@ solution_tags:
 systems:
 - workday
 time_in_minutes: 10
-accreditations: [wdavis-moveworks]
 ---
 
 # **Introduction**

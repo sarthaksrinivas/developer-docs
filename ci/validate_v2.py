@@ -174,6 +174,12 @@ def validate_connector_schema(file_path):
                 "difficulty_level": DifficultyLevel
             }
         )
+    description: str = data.get('description')
+    if description and not description.endswith('.'):
+        print(
+                f"Missed a period at the end of your description for {file_path}. ('{description}')"
+            )
+        sys.exit(1)
 
     validate_yaml_schema_generic(data, required_fields, file_path)
 
@@ -197,6 +203,13 @@ def validate_plugin_schema(file_path):
                 "difficulty_level": DifficultyLevel,
             }
         )
+    description: str = data.get('description')
+    if description and not description.endswith('.'):
+        print(
+                f"Missed a period at the end of your description for {file_path}. ('{description}')"
+            )
+        sys.exit(1)
+
 
     validate_yaml_schema_generic(data, required_fields, file_path)
 

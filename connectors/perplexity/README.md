@@ -1,5 +1,4 @@
 ---
-description: Connect Creator Studio to Perplexity
 difficulty_level: BEGINNER
 fidelity: GUIDE
 name: Perplexity
