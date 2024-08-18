@@ -3,6 +3,9 @@ difficulty_level: INTERMEDIATE
 fidelity: GUIDE
 name: ServiceNow
 time_in_minutes: 30
+accreditations:
+- indrapaul24
+- DEFAULT
 ---
 
 # **Introduction**

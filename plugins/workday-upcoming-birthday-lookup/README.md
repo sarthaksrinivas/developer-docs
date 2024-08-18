@@ -1,6 +1,7 @@
 ---
 accreditations:
 - wdavis-moveworks
+- DEFAULT
 description: A plugin that can find the birthdays of your teammates in Workday.
 difficulty_level: BEGINNER
 fidelity: GUIDE

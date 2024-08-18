@@ -3,7 +3,7 @@ name: Microsoft Graph
 difficulty_level: INTERMEDIATE
 fidelity: GUIDE
 time_in_minutes: 30
-accreditations: [sswiderek-moveworks, ajaymerchia]
+accreditations: [sswiderek-moveworks, ajaymerchia, DEFAULT]
 ---
 
 # Introduction

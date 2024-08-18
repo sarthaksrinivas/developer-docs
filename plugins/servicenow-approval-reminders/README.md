@@ -10,6 +10,11 @@ solution_tags:
 systems:
 - servicenow
 time_in_minutes: 45
+accreditations:
+- kevmok
+- DEFAULT
+redirects:
+- snow-approval-reminders
 ---
 
 # Introduction

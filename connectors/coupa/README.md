@@ -6,6 +6,8 @@ difficulty_level: BEGINNER
 accreditations:
 - indrapaul24
 - DEFAULT
+drop_accreditations:
+- ajaymerchia
 ---
 
 # **Introduction**
