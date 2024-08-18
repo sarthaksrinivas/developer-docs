@@ -1,13 +1,12 @@
 import os
 
-os.chdir("/Users/ajaymerchia/wkspc/developer-docs")
-
 import pandas as pd
 import requests
 
-df = pd.read_csv("./Plugin Research df47317a8eb449178020d6bf3dec4b23_all.csv")
+CSV_FILE = 'Plugin Research df47317a8eb449178020d6bf3dec4b23_all.csv'
+
+df = pd.read_csv(CSV_FILE)
 from enum import Enum
-from dataclasses import dataclass
 from ci.data_utils import (
     load_yaml_data,
     replace_nan_with_none,
@@ -21,8 +20,6 @@ from ci.model import *
 import shutil
 
 # CONSTANTS (Can change if we change the Notion DB Structure)
-
-
 class NotionColumns(Enum):
     TITLE = "Title"
     DESCRIPTION = "Description"
