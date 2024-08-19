@@ -1,9 +1,14 @@
 ---
+accreditations:
+- indrapaul24
+- DEFAULT
+drop_accreditations:
+- ajaymerchia
 description: A plugin that looks up expense report details from Concur.
 design_pattern_id: 28
 difficulty_level: BEGINNER
 fidelity: GUIDE
-name: Lookup Expense Reports
+name: Look Up Expense Reports
 purple_chat_link: https://developer.moveworks.com/creator-studio/developer-tools/purple-chat-builder/?workspace={"title"%3A"My+Workspace"%2C"botSettings"%3A{"name"%3A""%2C"imageUrl"%3A""}%2C"mocks"%3A[{"id"%3A4760%2C"title"%3A"New+Mock"%2C"transcript"%3A{"settings"%3A{"colorStyle"%3A"LIGHT"%2C"startTime"%3A"11%3A43+AM"%2C"defaultPerson"%3A"GWEN"%2C"editable"%3Afalse%2C"botName"%3A""%2C"botImageUrl"%3A""}%2C"messages"%3A[{"from"%3A"USER"%2C"text"%3A"Show+me+my+expense+reports"}%2C{"from"%3A"ANNOTATION"%2C"text"%3A"Running+Creator+Studio+plugin+to+retrieve+Expense+Reports+from+Concur"}%2C{"from"%3A"BOT"%2C"text"%3A"You+have+two+expense+reports%3A"%2C"cards"%3A[{"title"%3A"New+test+report"%2C"text"%3A"Submitted+%26+Pending+Approval<br><b>Total+Claimed+Amount%3A<%2Fb>+%2460.00<br>Status%3A+<i>Currently+not+paid<%2Fi>"}%2C{"title"%3A"Internet+Reimbursement"%2C"text"%3A"Not+submitted<br><b>Total+Claimed+Amount%3A<%2Fb>+%2425.00<br>Status%3A+<i>Not+paid<%2Fi>"}]}]}}]}
 solution_tags:
 - Approvals
@@ -11,9 +16,6 @@ solution_tags:
 systems:
 - sap-concur
 time_in_minutes: 15
-accreditations:
-- indrapaul24
-- DEFAULT
 ---
 
 # Introduction
