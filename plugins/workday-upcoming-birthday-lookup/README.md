@@ -2,10 +2,12 @@
 accreditations:
 - wdavis-moveworks
 - DEFAULT
+drop_accreditations:
+- ajaymerchia
 description: A plugin that can find the birthdays of your teammates in Workday.
 difficulty_level: BEGINNER
 fidelity: GUIDE
-name: Lookup Birthdays in Workday
+name: Look Up Birthdays in Workday
 purple_chat_link: "https://developer.moveworks.com/creator-studio/developer-tools/purple-chat-builder/?workspace={\"\
   title\"%3A\"My+Workspace\"%2C\"botSettings\"%3A{\"name\"%3A\"\"%2C\"imageUrl\"%3A\"\
   \"}%2C\"mocks\"%3A[{\"id\"%3A3108%2C\"title\"%3A\"New+Mock\"%2C\"transcript\"%3A{\"\

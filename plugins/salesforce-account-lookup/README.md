@@ -1,18 +1,20 @@
 ---
+accreditations:
+- indrapaul24
+- DEFAULT
+drop_accreditations:
+- ajaymerchia
 description: A plugin that retrieves customer data from Salesforce.
 design_pattern_id: 28
 difficulty_level: BEGINNER
 fidelity: GUIDE
-name: Lookup Salesforce Account
+name: Look Up Salesforce Accounts
 purple_chat_link: https://developer.moveworks.com/creator-studio/developer-tools/purple-chat-builder/?workspace={"title"%3A"My+Workspace"%2C"botSettings"%3A{"name"%3A""%2C"imageUrl"%3A""}%2C"mocks"%3A[{"id"%3A9782%2C"title"%3A"New+Mock"%2C"transcript"%3A{"settings"%3A{"colorStyle"%3A"LIGHT"%2C"startTime"%3A"11%3A43+AM"%2C"defaultPerson"%3A"GWEN"%2C"editable"%3Afalse%2C"botName"%3A""%2C"botImageUrl"%3A""}%2C"messages"%3A[{"from"%3A"USER"%2C"text"%3A"What+is+the+Renewal+date+for+ACME%3F"}%2C{"from"%3A"ANNOTATION"%2C"text"%3A"Query+Salesforce+Accounts+API+endpoint"}%2C{"from"%3A"BOT"%2C"text"%3A"The+renewal+date+for+ACME+is+on+February+25%2C+2026"}%2C{"from"%3A"USER"%2C"text"%3A"Perfect%2C+thanks!"}]}}]}
 solution_tags:
 - Sales
 systems:
 - salesforce
 time_in_minutes: 5
-accreditations:
-- indrapaul24
-- DEFAULT
 ---
 
 # Introduction
