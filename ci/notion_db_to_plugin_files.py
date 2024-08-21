@@ -8,7 +8,7 @@ CSV_FILE = 'Plugin Research df47317a8eb449178020d6bf3dec4b23_all.csv'
 
 df = pd.read_csv(CSV_FILE)
 from enum import Enum
-from ci.data_utils import (
+from data_utils import (
     load_yaml_data,
     replace_nan_with_none,
     deep_equal,
@@ -16,7 +16,7 @@ from ci.data_utils import (
     render_template_file,
 )
 from typing import List
-from ci.model import *
+from model import *
 
 import shutil
 
