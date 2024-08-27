@@ -68,23 +68,77 @@ curl --location 'https://accounts.zoho.in/oauth/v2/token' \
 --data-urlencode 'client_secret={{client_secret}}' \
 --data-urlencode 'redirect_uri=https://www.zoho.com'
 ```
-**API 2: List Tickets**
+**API 2: List All Tickets**
+
+Requests:
+
 ```bash
 curl --location 'https://sdpondemand.manageengine.in/api/v3/requests' \
---header 'Authorization: Bearer {{token}}'
+--header 'Authorization: Bearer {{token}}' \
+```
+
+Change Tickets:
+```bash
+curl --location 'https://sdpondemand.manageengine.in/api/v3/changes' \
+--header 'Authorization: Bearer {{token}}' \
+```
+
+Releases:
+```bash
+curl --location 'https://sdpondemand.manageengine.in/api/v3/releases' \
+--header 'Authorization: Bearer {{token}}' \
 ```
 
 **API 3: List Approval Levels**
+List all request approval levels:
 ```bash
 curl --location 'https://sdpondemand.manageengine.in/api/v3/requests/{{request_id}}/approval_levels' \
---header 'Authorization: Bearer {{token}}'
+--header 'Authorization: Bearer {{token}}' \
+```
+
+List all change approval levels:
+```bash
+curl --location 'https://sdpondemand.manageengine.in/api/v3/changes/{{change_id}}/approval_levels' \
+--header 'Authorization: Bearer {{token}}' \
+```
+
+List all release approval levels:
+```bash
+curl --location 'https://sdpondemand.manageengine.in/api/v3/releases/{{release_id}}/approval_levels' \
+--header 'Authorization: Bearer {{token}}' \
 ```
 
 **API 4: List Approvals within an Approval Level**
+List all request approvals in an approval level:
 ```bash
-curl --location 'https://sdpondemand.manageengine.in/api/v3/requests/{{request_id}}/approval_levels/{{level_id}}/approvals' \
+curl --location 'https://sdpondemand.manageengine.in/api/v3/requests/{{request_id}}/approval_levels' \
+--header 'Authorization: Bearer {{token}}' \
+```
+
+List all change approvals in an approval level:
+```bash
+curl --location 'https://{{SDP_BASE_URL}}/api/v3/requests/{{request_id}}/approval_levels/{{level_id}}/approvals' \
 --header 'Authorization: Bearer {{token}}'
 ```
+
+List all release approvals in an approval level:
+```bash
+curl --location 'https://sdpondemand.manageengine.in/api/v3/releases/{{release_id}}/approval_levels' \
+--header 'Authorization: Bearer {{token}}' \
+```
+
+**API 5: Approve or Reject an Approval**
+```bash
+curl --location --request PUT 'https://{{SDP_BASE_URL}}/api/v3/{{ticket}}/{{ticket_id}}/approval_levels/{{level_id}}/approvals/{{approval_id}}/_{{action}}' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer {{token}}' \
+--data '{
+  "approval": {
+    "comments": "The comments to action the approval"
+  }
+}'
+```
+
 
 ## Step 3: Write your Orchestration Code in your iPaaS
 Here's an example of the code structure you can use to orchestrate the API calls for ticket approvals in ManageEngine SDP:
@@ -398,19 +452,16 @@ if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
 ```
 ## Step 4: Build in Creator Studio
-1. Create a new Query in Creator Studio named "🎫 Manage Ticket Approvals in ManageEngine SDP".
+1. Create a new Event in Creator Studio named "🎫 Manage Ticket Approvals in ManageEngine SDP".
+    * Choose to add a followup action so that you can approve or reject the ticket.
 2. Configure the API Connection:
     * Import the cURL command for the "List Tickets" API.
     * Add necessary authorization headers.
-3. Test your API to ensure it returns ticket details as expected.
-4. Label your APIs with fields you want to extract from the response.
-5. Add follow-up actions for approving and rejecting tickets.
 6. Design the conversation flow:
     * Ask if the user wants to view pending approvals.
     * Display ticket details for approval.
     * Provide options to approve, reject, or view more details.
-7. Configure slots for approval_id, ticket_id, and rejection reason (if applicable).
-8. Set up API actions for approving and rejecting tickets using your middleware connector.
+7. Follow our [Quickstart Guide](https://developer.moveworks.com/creator-studio/quickstart/event-triggered-paths/) to build an event with followup actions in Creator Studio, which can be called from your middleware.
 
 # Congratulations!
 You've just enabled your employees to manage ticket approvals through your Copilot. This streamlines your IT processes and improves response times. Consider expanding this functionality to other ManageEngine SDP modules like Changes and Releases for a comprehensive approval management solution.
