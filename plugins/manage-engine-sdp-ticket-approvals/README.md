@@ -141,6 +141,11 @@ curl --location --request PUT 'https://{{SDP_BASE_URL}}/api/v3/{{ticket}}/{{tick
 
 
 ## Step 3: Write your Orchestration Code in your iPaaS
+
+![Architecture Diagram](./architecture.png) 
+
+This diagram describes the flow we will build in this guide.
+
 Here's an example of the code structure you can use to orchestrate the API calls for ticket approvals in ManageEngine SDP:
 
 ```python
