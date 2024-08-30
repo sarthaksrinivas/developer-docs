@@ -220,8 +220,9 @@ def validate_record(record: Record):
     ]:
         # Check if the guide file exists
         if not os.path.exists(record.record_readme):
+            os.makedirs(record.record_directory)
             raise FileNotFoundError(
-                f"Could not find a guide or research file for {record.record_directory}"
+                f"This record is supposed to be {record.fidelity}, but we could not find a guide or research file for {record.record_directory}. Please add your proof."
             )
 
         # Detect discrepancies with the guide file
